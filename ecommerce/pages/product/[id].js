@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-// import { data } from '../../utils/data'
+// import { data } from '../../utils/data' // esto se quita cuendo ya no estamos usando los datos de data,json,
+// por que nos conectamos a la base de datos. por eso ya no es nevesario
 import db from '../../utils/db'
 import {
     Container,
@@ -14,7 +15,10 @@ import {
     useColorModeValue,
     Button
 } from '@chakra-ui/react'
-import Product from '../../models/Products'
+import Product from '../../models/Products'// se tiene que importar el archivo donde esta
+import Products from '../../components/Products'
+// el modelo ya que se usa la api o base de datos
+
 
 const ProductPage = (props) => {
     const router = useRouter() // es un hook de next, me va permitir a mi moverme entre rutas
@@ -105,4 +109,38 @@ export async function getServerSideProps(context){
     }
 
 }
+
+
+//se crea un server-side proxi , es proxi del lado del servidor, podemos 
+//modificar solicitudes y respuesta conforme nuestra aplicacion lo requiera.
+//intermediaro entre las solicitudes del cliente y el servidor destino
+//el puede filtar contenido malisioso y no mostrar ip, mantener datos mas solicitados para mejor respuesta
+//para nosotros es para renviar solicitudes del cliente a la servidores correspondientes y devolver las respuestas
+export async function getServerSideProps(context){
+
+    //este server estare los datos de la url desde el contexto
+    const{params}= context; //que se tiene que crear
+    const{id}=params
+
+    //conexion a la base de datos por que ya no los estoy consumiendo de  import { data } from '../../utils/data'
+    //linea que comente
+    await db.connect()
+
+    //si quiero hacer la busqueda de un solo producto 
+    //busco un producto en la base de datos con id proporcionado y lo convierte a objeto de javascript
+    const product = await Product.findOne({id}).lean()
+
+    //desconexion a la base de datos
+    await db.disconnect()
+
+    return{
+        //devuelve el producto encontrado como props para ser usado en el componente de la pagina (url)
+        //en este caso en components/P{roducts
+        props:{
+            product:db.convertDocToObj(products) //es la funcion que cree en db.js y como ya esta
+            // importado este archivo no requiero hacerlo nuevamente
+        }
+    }
+}
+
 export default ProductPage

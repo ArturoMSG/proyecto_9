@@ -32,6 +32,16 @@ async function disconnect(){ // funcion para desconectar la base de datos, debe 
     connection.isConnected=false} //como desconecto entonces a la variable  connection.isConnected asiganle el valor 'false'
     else{ console.log('estas conectado')} // si no hizo la desconexion indicara que esta conectado (se brinco el paso anterior)
 }
+//esta funcion sirve como trasformador de documentos (registros) que es en lo que trabaja mongodb
+//en objetos, esto sucede en el contexto de bases de datos
+function convertDocToObj(doc){ 
+    doc._id=doc._id.toString() //convirte un valor de la propiedad "id" a una cadena de caracteres para trabajarla mejor
+    //el timeStamp de models/Products.j tambien lo convertimos para su uso en una cadena de caractres
+    doc.createdAt=doc.createdAt.toString() //fech DE CREACION DE DOCUMENTO
+    doc.updatedAt=doc.updatedAt.toString()//FECHA DE MODIFICACION DE DOCUMETO
+    return doc //devuelve el objeto modificado
 
-const db={connect, disconnect}
+}
+
+const db={connect, disconnect, convertDocToObj} //agrego el objeto para exportarlo
 export default db
