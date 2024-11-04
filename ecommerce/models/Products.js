@@ -17,5 +17,5 @@ const productSchema = new mongoose.Schema(
 
 )
 // el producto se le asigna el valor de mongoos,carpeta.archivo o 
-const Product = mongoose.models.Product || mongoose.models('Product', productSchema)
+const Product = mongoose.model.Product || mongoose.model('Product', productSchema)
 export default Product  //exporto la variable  como modelo
