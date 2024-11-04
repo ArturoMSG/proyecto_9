@@ -6,12 +6,14 @@ import {
   Stack,
   Button, 
   useColorModeValue,    
-  Center
+  Center,
+  useColorMode //este es para tema claro y obscuro
 
 } from '@chakra-ui/react'
+import {MoonIcon, SunIcon} from  '@chakra-ui/icons' //importacion para poder usar los iconos el sol y la luna
 
-
-const Layouts = () => {
+const Layouts = ({children}) => {
+  const {colorMode, toggleColorMode} = useColorMode() // Hook chakra-ui para poder cambiar de tema claro a oscuro
   return (
     <div>
         <Head>
@@ -42,6 +44,9 @@ const Layouts = () => {
             direction={'row'}
             spacing={6}
             >
+              <Button onClick={toggleColorMode}> {//boton para cambio de tema claro y obscuro
+               colorMode === "light" ? <MoonIcon/> : <SunIcon/>  } {/*aqui se usan los iconos del sol y la luna*/}
+              </Button>
               <Button 
               fontSize={'sm'}
               fontWeight={400}
@@ -62,7 +67,7 @@ const Layouts = () => {
 
           </Flex>
         </Box>
-
+        {children} {/* aqui se renderizael contenido anidado*/}
     </div> 
   )
 }
