@@ -1,5 +1,5 @@
 import React from 'react'
-import {data} from '../utils/data'
+//import {data} from '../utils/data' // se cometa por que ya estoy usando la base de datos
 import { Image } from '@chakra-ui/react'
 import {
   Grid,
@@ -10,14 +10,14 @@ import {
 import  Link  from 'next/link'
 // import Image from 'next/image' otra forma de hacerlo
 
-const Products = () => {
+const Products = ({data}) => {
   return (
     <div>
       <Grid 
       templateColumns={{base: "1fr", lg:"repeat(4, 1fr)"}} 
       gap={6}
       >
-        {data.products.map((products) => (
+        {data.map((products) => (
           <GridItem
           key={products.id}
           colSpan={1}

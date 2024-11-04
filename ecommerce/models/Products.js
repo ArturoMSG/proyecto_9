@@ -16,6 +16,6 @@ const productSchema = new mongoose.Schema(
     } // sirve para saber cuando un producto (dato) fue creado y pone la fecha en forma automatica
 
 )
-// el producto se le asigna el valor de mongoos,carpeta.archivo o 
-const Product = mongoose.model.Product || mongoose.model('Product', productSchema)
+// el producto se le asigna el valor de mongoos,carpeta.archivo o  models como se llama la carpeta
+const Product = mongoose.models.Product || mongoose.models('Product', productSchema)
 export default Product  //exporto la variable  como modelo

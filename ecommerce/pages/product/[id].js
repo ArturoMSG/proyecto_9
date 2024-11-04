@@ -87,28 +87,6 @@ const ProductPage = (props) => {
   )
 }
 
-//Server-side proxy
-// reenviar las solicitudes del cliente a los servidores correspondientes
-// y luego devolver las respuestas de esos servidores al cliente.
-
-export async function getServerSideProps(context){
-    // Extrae los datos/parámetros de la URL desde el contexto 
-    const {params} = context
-    const {id} = params
-    // conecta a la base datos
-    await db.connect()
-    //Busca un producto en la base de datos con el id proporcionado y lo convierte a un objeto de Javascript
-    const product = await Product.findOne({id}).lean()
-    // desconecta de la base de datos
-    await db.disconnect()
-   // devuelve el producto encontrado, como props para ser usado en el componente de la página
-    return {
-        props: {
-            product: db.convertDocToObj(product)
-        }
-    }
-
-}
 
 
 //se crea un server-side proxi , es proxi del lado del servidor, podemos 
@@ -116,10 +94,13 @@ export async function getServerSideProps(context){
 //intermediaro entre las solicitudes del cliente y el servidor destino
 //el puede filtar contenido malisioso y no mostrar ip, mantener datos mas solicitados para mejor respuesta
 //para nosotros es para renviar solicitudes del cliente a la servidores correspondientes y devolver las respuestas
+//Server-side proxy
+// reenviar las solicitudes del cliente a los servidores correspondientes
+// y luego devolver las respuestas de esos servidores al cliente.
 export async function getServerSideProps(context){
 
-    //este server estare los datos de la url desde el contexto
-    const{params}= context; //que se tiene que crear
+    //este server estare los datos o parametros de la url desde el contexto
+    const{params}= context; //se tiene que crear!!!!
     const{id}=params
 
     //conexion a la base de datos por que ya no los estoy consumiendo de  import { data } from '../../utils/data'
@@ -128,6 +109,7 @@ export async function getServerSideProps(context){
 
     //si quiero hacer la busqueda de un solo producto 
     //busco un producto en la base de datos con id proporcionado y lo convierte a objeto de javascript
+    //Busca un producto en la base de datos con el id proporcionado y lo convierte a un objeto de Javascript
     const product = await Product.findOne({id}).lean()
 
     //desconexion a la base de datos
@@ -137,7 +119,7 @@ export async function getServerSideProps(context){
         //devuelve el producto encontrado como props para ser usado en el componente de la pagina (url)
         //en este caso en components/P{roducts
         props:{
-            product:db.convertDocToObj(products) //es la funcion que cree en db.js y como ya esta
+            product:db.convertDocToObj(product) //es la funcion que cree en db.js y como ya esta
             // importado este archivo no requiero hacerlo nuevamente
         }
     }
